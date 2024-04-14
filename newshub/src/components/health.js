@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './navbar'; // Assuming Navbar component is in a file named Navbar.js
 
-const FinanceNews = () => {
+const Health = () => {
   const [news, setNews] = useState([]);
   const [page, setPage] = useState(1);
 
@@ -11,7 +11,7 @@ const FinanceNews = () => {
       try {
         const response = await axios.get('https://newsapi.org/v2/top-headlines', {
           params: {
-            category: 'business',
+            category: 'health',
             country: 'in',
             pageSize: 21, // Number of articles per page
             page: page,
@@ -36,7 +36,7 @@ const FinanceNews = () => {
     <div>
       <Navbar />
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-semibold text-center mb-8">Finance News</h2>
+        <h2 className="text-2xl font-semibold text-center mb-8">Health News</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {news.map((article, index) => (
             article.title !== "[Removed]" || article.urlToImage!=="[Removed]" ? (
@@ -75,5 +75,4 @@ const FinanceNews = () => {
   );
 };
 
-export default FinanceNews;
-
+export default Health;
