@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './navbar'; // Assuming Navbar component is in a file named Navbar.js
 
-const Entertainment = () => {
+const Home2 = () => {
   const [news, setNews] = useState([]);
   const [page, setPage] = useState(1);
-
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get('https://newsapi.org/v2/top-headlines', {
           params: {
-            category: 'entertainment',
+            category: 'general',
             country: 'in',
             pageSize: 21, // Number of articles per page
             page: page,
@@ -32,13 +31,12 @@ const Entertainment = () => {
     // Implement your logic to save the article here
     console.log('Article saved:', article);
   };
-  
 
   return (
     <div>
-      <Navbar />
+      
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-semibold text-center mb-8">Entertainment  News</h2>
+        <h2 className="text-2xl font-semibold text-center mb-8"></h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {news.map((article, index) => (
             article.title !== "[Removed]" || article.urlToImage!=="[Removed]" ? (
@@ -65,7 +63,7 @@ const Entertainment = () => {
           ))}
         </div>
         <div className="flex justify-center mt-8">
-          <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn  bg-blue-600 hover:bg-yellow-400 text-white">
+          <button  onClick={() => setPage(page - 1)} disabled={page === 1} className="btn  bg-blue-600 hover:bg-yellow-400 text-white">
             Previous Page
           </button>
           <button onClick={() => setPage(page + 1)} className="btn ml-4  bg-blue-600 hover:bg-yellow-400 text-white">
@@ -77,4 +75,4 @@ const Entertainment = () => {
   );
 };
 
-export default Entertainment;
+export default Home2;

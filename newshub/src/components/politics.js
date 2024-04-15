@@ -6,6 +6,7 @@ const Politics = () => {
   const [news, setNews] = useState([]);
   const [page, setPage] = useState(1);
 
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -31,6 +32,7 @@ const Politics = () => {
     // Implement your logic to save the article here
     console.log('Article saved:', article);
   };
+  
 
   return (
     <div>
@@ -63,10 +65,10 @@ const Politics = () => {
           ))}
         </div>
         <div className="flex justify-center mt-8">
-          <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn">
+          <button onClick={() => setPage(page - 1)} disabled={page === 1} className="btn  bg-blue-600 hover:bg-yellow-400 text-white">
             Previous Page
           </button>
-          <button onClick={() => setPage(page + 1)} className="btn ml-4">
+          <button onClick={() => setPage(page + 1)} className="btn ml-4  bg-blue-600 hover:bg-yellow-400 text-white">
             Next Page
           </button>
         </div>

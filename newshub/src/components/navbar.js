@@ -8,6 +8,7 @@ import Profile from './profile';
 import FinanceNews from './finance';
 import Health from './health';
 import Politics from './politics';
+import Home2 from './home2';
 
 function Navbar() {
   const { loginWithRedirect } = useAuth0();
@@ -58,6 +59,7 @@ function Navbar() {
       </div>
     </div>
   </header>
+   <Home2/>
       
     </div>
   )
