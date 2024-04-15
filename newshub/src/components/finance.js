@@ -9,13 +9,13 @@ const FinanceNews = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get('https://newsapi.org/v2/top-headlines', {
+        const response = await axios.get(`${process.env.REACT_APP_NEWS_API_LINK}`, {
           params: {
             category: 'business',
             country: 'in',
             pageSize: 21, // Number of articles per page
             page: page,
-            apiKey: '2bcfb79da33b4acaa0265bfb7ab1936e',
+            apiKey: `${process.env.REACT_APP_NEWS_API_KEY}`,
           },
         });
         setNews(response.data.articles.filter(article => article.title !== "[Removed]"));

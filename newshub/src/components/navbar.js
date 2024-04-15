@@ -1,18 +1,45 @@
-import React from 'react'
+// import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+// import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from './profile';
-import FinanceNews from './finance';
-import Health from './health';
-import Politics from './politics';
-import Home2 from './home2';
+// import FinanceNews from './finance';
+// import Health from './health';
+// import Politics from './politics';
+// import Home2 from './home2';
 
 function Navbar() {
   const { loginWithRedirect } = useAuth0();
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const [news, setNews] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_NEWS_API_LINK}`, {
+          params: {
+            category: 'general',
+            country: 'in',
+            pageSize: 21, // Number of articles per page
+            page: page,
+            apiKey: `${process.env.REACT_APP_NEWS_API_KEY}`,
+          },
+        });
+        setNews(response.data.articles.filter(article => article.title !== "[Removed]"));
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
+
+    fetchNews();
+  }, [page]);
+  
+
 
   return (
     <div>
@@ -42,7 +69,7 @@ function Navbar() {
         
         {
           !isAuthenticated && 
-          <button onClick={() => loginWithRedirect()} type="button" className="btn btn-outline-light me-2">Login</button>
+          <button onClick={() => loginWithRedirect()} type="button" className="btn btn-outline-light me-2transition duration-300 transform hover:scale-140">Login</button>
         }
         {  isAuthenticated && 
       // <div className='rounded-lg w-3 h-5' >
@@ -59,7 +86,7 @@ function Navbar() {
       </div>
     </div>
   </header>
-   <Home2/>
+   
       
     </div>
   )

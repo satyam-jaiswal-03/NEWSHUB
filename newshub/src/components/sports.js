@@ -9,13 +9,13 @@ const Sports = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get('https://newsapi.org/v2/top-headlines', {
+        const response = await axios.get(`${process.env.REACT_APP_NEWS_API_LINK}`, {
           params: {
-            category: 'sports',
+            category: 'sports', // This might not be supported by the News API
             country: 'in',
-            pageSize: 21, // Number of articles per page
+            pageSize: 21,
             page: page,
-            apiKey: '2bcfb79da33b4acaa0265bfb7ab1936e',
+            apiKey: `${process.env.REACT_APP_NEWS_API_KEY}`,
           },
         });
         setNews(response.data.articles.filter(article => article.title !== "[Removed]"));
@@ -39,27 +39,25 @@ const Sports = () => {
         <h2 className="text-2xl font-semibold text-center mb-8">Sports News</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {news.map((article, index) => (
-            article.title !== "[Removed]" || article.urlToImage!=="[Removed]" ? (
-              <div key={index} className="flex flex-col bg-white rounded-lg overflow-hidden shadow-md">
-                <img src={article.urlToImage} alt={article.title} className="w-full h-35 object-cover object-center" />
-                <div className="p-4 flex flex-col justify-between flex-1">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
-                    <p className="text-gray-700">{article.description}</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <a href={article.url} className="text-blue-500 mt-4 self-end" target="_blank" rel="noopener noreferrer">
-                      Read More
-                    </a>
-                    <button className="save-icon" onClick={() => handleSaveArticle(article)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                      </svg>
-                    </button>
-                  </div>
+            <div key={index} className="flex flex-col bg-white rounded-lg overflow-hidden shadow-md">
+              <img src={article.urlToImage} alt={article.title} className="w-full h-35 object-cover object-center" />
+              <div className="p-4 flex flex-col justify-between flex-1">
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">{article.title}</h3>
+                  <p className="text-gray-700">{article.description}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <a href={article.url} className="text-blue-500 mt-4 self-end" target="_blank" rel="noopener noreferrer">
+                    Read More
+                  </a>
+                  <button className="save-icon" onClick={() => handleSaveArticle(article)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-            ) : null
+            </div>
           ))}
         </div>
         <div className="flex justify-center mt-8">
