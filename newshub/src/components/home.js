@@ -5,11 +5,12 @@ import Navbar from './navbar'; // Assuming Navbar component is in a file named N
 const Home = () => {
   const [news, setNews] = useState([]);
   const [page, setPage] = useState(1);
+  const [savedArticles, setSavedArticles] = useState([]);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_NEWS_API_LINK}`, {
+        const response = await axios.get("https://newsapi.org/v2/top-headlines", {
           params: {
             category: 'general',
             country: 'in',
@@ -27,9 +28,45 @@ const Home = () => {
     fetchNews();
   }, [page]);
 
-  const handleSaveArticle = (article) => {
+  useEffect(() => {
+    // Retrieve saved articles from local storage when the component mounts
+    const savedArticlesData = JSON.parse(localStorage.getItem("savedArticles")) || [];
+    setSavedArticles(savedArticlesData);
+  }, []);
+
+  const handleSaveArticle = (articleIndex) => {
     // Implement your logic to save the article here
-    console.log('Article saved:', article);
+    const article = news[articleIndex];
+    const articleIsSaved = savedArticles.some(savedArticle => savedArticle.title === article.title);
+    let updatedSavedArticles;
+
+    if (articleIsSaved) {
+      updatedSavedArticles = savedArticles.filter(savedArticle => savedArticle.title !== article.title);
+    } else {
+      updatedSavedArticles = [...savedArticles, article];
+    }
+
+    // Update saved articles in state and local storage
+    setSavedArticles(updatedSavedArticles);
+    localStorage.setItem("savedArticles", JSON.stringify(updatedSavedArticles));
+
+    // Update the news state to reflect the changes (remove or add the saved article)
+    const updatedNews = news.map((item, index) => {
+      if (index === articleIndex) {
+        return {
+          ...item,
+          saved: !articleIsSaved // Toggle the saved status
+        };
+      }
+      return item;
+    });
+    setNews(updatedNews);
+  };
+
+  
+
+  const isArticleSaved = (article) => {
+    return savedArticles.some(savedArticle => savedArticle.title === article.title);
   };
 
   return (
@@ -39,7 +76,7 @@ const Home = () => {
         <h2 className="text-2xl font-semibold text-center mb-8"></h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {news.map((article, index) => (
-            article.title !== "[Removed]" || article.urlToImage!=="[Removed]" ? (
+            article.title !== "[Removed]" || article.urlToImage !== "[Removed]" ? (
               <div key={index} className="flex flex-col bg-white rounded-lg overflow-hidden shadow-md">
                 <img src={article.urlToImage} alt={article.title} className="w-full h-35 object-cover object-center" />
                 <div className="p-4 flex flex-col justify-between flex-1">
@@ -51,10 +88,10 @@ const Home = () => {
                     <a href={article.url} className="text-blue-500 mt-4 self-end" target="_blank" rel="noopener noreferrer">
                       Read More
                     </a>
-                    <button className="save-icon" onClick={() => handleSaveArticle(article)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                      </svg>
+                    <button className="save-icon" onClick={() => handleSaveArticle(index)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+</svg>
                     </button>
                   </div>
                 </div>

@@ -9,7 +9,7 @@ const Home2 = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_NEWS_API_LINK}`, {
+        const response = await axios.get("https://newsapi.org/v2/top-headlines", {
           params: {
             category: 'general',
             country: 'in',
@@ -19,6 +19,7 @@ const Home2 = () => {
           },
         });
         setNews(response.data.articles.filter(article => article.title !== "[Removed]"));
+        console.log(news)
       } catch (error) {
         console.error('Error fetching news:', error);
       }
@@ -51,10 +52,10 @@ const Home2 = () => {
                     <a href={article.url} className="text-blue-500 mt-4 self-end" target="_blank" rel="noopener noreferrer">
                       Read More
                     </a>
-                    <button className="save-icon" onClick={() => handleSaveArticle(article)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                      </svg>
+                    <button className="save-icon" onClick={() => handleSaveArticle(index)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+</svg>
                     </button>
                   </div>
                 </div>
