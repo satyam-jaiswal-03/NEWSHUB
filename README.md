@@ -6,7 +6,8 @@ NewsHub delivers personalized news across diverse categories like health, financ
 React and database
 
 ### Demo Link
-https://drive.google.com/file/d/1uVaPF1rHicnlCKzg0T0_NfJCqj_-SDom/view?usp=sharing
+https://drive.google.com/file/d/1vKBU7-hw9Sw9CmoorWgUWhMHAeNrnMTp/view?usp=drivesdk
 
 #### NOTE 
-currently fixing saved news feature to dashboard and production deployment
+deployment issue as api is paid ,looking for alternative 
+style issue on save button,fixing it
